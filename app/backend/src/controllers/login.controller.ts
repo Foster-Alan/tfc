@@ -21,7 +21,9 @@ class LoginController {
   public validate = async (req: Request, res: Response) => {
     try {
       const { user } = req.body;
+
       const result = await this._userService.validate(user);
+
       return res.status(statusCode.ok).json(result);
     } catch (error: unknown) {
       return res.status(statusCode.internalServerError).json({ message: error });
