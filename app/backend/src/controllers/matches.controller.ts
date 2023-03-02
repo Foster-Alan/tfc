@@ -8,7 +8,6 @@ class MatchesController {
   public selectMatches = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { inProgress } = req.query;
-      console.log(inProgress);
       if (inProgress) {
         const matches = await this._matchesService.selectAllInProgressMatches(inProgress as string);
         return res.status(statusCode.ok).json(matches);
@@ -56,6 +55,18 @@ class MatchesController {
         return res.status(statusCode.notFound).json({ message: 'There is no match with such id!' });
       }
       return res.status(statusCode.ok).json(match);
+    } catch (error: unknown) {
+      return res.status(statusCode.internalServerError).json({ message: error });
+    }
+  };
+
+  public allMatcheTeamIdAndProgres = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const { id } = req.params;
+      const { inProgress } = req.body;
+      const matches = await this._matchesService
+        .allMatcheTeamIdAndProgres(id, inProgress);
+      return res.status(statusCode.ok).json(matches);
     } catch (error: unknown) {
       return res.status(statusCode.internalServerError).json({ message: error });
     }

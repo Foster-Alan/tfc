@@ -8,7 +8,6 @@ export default class JWT {
 
   public createToken(data: IUser): string {
     const token = jwt.sign({ role: data.role, id: data.id }, this._secret, this._config);
-    console.log(token);
     return token;
   }
 
